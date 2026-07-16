@@ -1,0 +1,67 @@
+-- ==========================================================
+-- Mappings
+-- ==========================================================
+
+local set = vim.keymap.set
+
+vim.g.mapleader = " "
+
+-- Copy & Paste
+set({ "v", "n" }, "<C-c>", '"+y', { desc = "Yank to clipboard" })
+set("n", "<C-c>", '"+Y', { desc = "Yank line to clipboard" })
+set("v", "<C-x>", '"+ygv"_d', { desc = "Cut to clipboard" })
+set("n", "<leader>p", '"+p', { desc = "paste from system clipboard" })
+
+-- LSP
+--stylua: ignore start
+set("n", "gR", vim.lsp.buf.references, { desc = "List references" })
+set("n", "gd", function()	vim.lsp.buf.definition() end, { desc = "Go to definition" })
+set("n", "gI", function()	vim.lsp.buf.implementation() end, { desc = "Go to implementation" })
+set("n", "<A-a>", function() vim.lsp.buf.code_action() end, { desc = "Code action" })
+set("n", "<leader>r", function() return ":IncRename " .. vim.fn.expand("<cword>") end, { expr = true })
+--stylua: ignore end
+
+-- Undotree
+set("n", "<leader>u", "<Cmd>:UndotreeToggle<CR>", { desc = "Toggle Undotree" })
+
+-- Quickfix
+set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Quickfix: next" })
+set("n", "<C-p>", "<cmd>cprevious<cr>", { desc = "Quickfix: previous" })
+
+-- Diagnostic
+--stylua: ignore start
+set("n", "<A-e>n", function()	vim.diagnostic.jump({count=1, float=true}) end, {  desc = "Go to next diagnostic" })
+set("n", "<A-e>p", function()	vim.diagnostic.jump({count=-1, float=true}) end, { desc = "Go to previous diagnostic" })
+set("n", "<A-e>a", function()	vim.diagnostic.open_float() end, { desc = "Show all errors in a floating window" })
+--stylua: ignore end
+
+-- Tabs
+set("n", "<A-l>", "<Esc>gt", { desc = "Tab next" })
+set("n", "<A-h>", "<Esc>gT", { desc = "Tab prev" })
+set("n", "<A-v>", "<Esc>g<Tab>", { desc = "Tab last visited" })
+set("n", "<leader>.", "<cmd>tabe .<cr>", { desc = "Open . in new tab" })
+set("n", "<leader>,", "<cmd>tab sb<cr>", { desc = "Open current buffer in a new tab" })
+set({ "i", "n" }, "<A-u>", "<Esc><cmd>tabmove -<cr>", { desc = "Tab move left" })
+set({ "i", "n" }, "<A-y>", "<Esc><cmd>tabmove +<cr>", { desc = "Tab move right" })
+set({ "i", "n" }, "<A-U>", "<Esc><cmd>tabmove 0<cr>", { desc = "Tab move first" })
+set({ "i", "n" }, "<A-Y>", "<Esc><cmd>tabmove $<cr>", { desc = "Tab move last" })
+set("n", "<A-0>", "<Esc><cmd>tablast<cr>", { desc = "Tab last" })
+
+for i = 1, 9 do
+	set({ "n", "i" }, "<A-" .. i .. ">", "<Esc><cmd>tabn " .. i .. "<cr>", { desc = "Tab " .. i })
+end
+
+-- Move line
+set("v", "<A-S-j>", ":m '>+1<cr>gv=gv", { desc = "Move line down" })
+set("v", "<A-S-k>", ":m '<-2<cr>gv=gv", { desc = "Move line up" })
+set("n", "<A-S-j>", "V:m '>+1<cr>gv=gv", { desc = "Move line down" })
+set("n", "<A-S-k>", "V:m '>-2<cr>gv=gv", { desc = "Move line up" })
+
+-- Window movement
+set("n", "<C-w>h", "<cmd>wincmd H<cr>", { desc = "window: move window left" })
+set("n", "<C-w>j", "<cmd>wincmd J<cr>", { desc = "window: move window down" })
+set("n", "<C-w>k", "<cmd>wincmd K<cr>", { desc = "window: move window up" })
+set("n", "<C-w>l", "<cmd>wincmd L<cr>", { desc = "window: move window right" })
+
+-- Lua
+set("v", "<leader><leader>x", ":lua<CR>", { desc = "Lua: Run selected lua code" })
