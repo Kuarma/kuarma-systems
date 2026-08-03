@@ -27,6 +27,7 @@
     {
       packages.git-pkg = inputs.wrapper-modules.wrappers.git.wrap {
         inherit pkgs;
+
         settings = {
           credential.helper = "cache --timeout 18200";
           credential.credentialStore = "cache";

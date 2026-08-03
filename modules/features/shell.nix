@@ -17,6 +17,9 @@
           enableCompletion = true;
           syntaxHighlighting.enable = true;
           autosuggestions.enable = true;
+          histSize = 10000;
+          histFile = "$HOME/.zsh_history";
+          setOptions = [ "HIST_IGNORE_ALL_DUPS" ];
 
           ohMyZsh = {
             enable = true;
@@ -26,8 +29,17 @@
               "docker"
               "docker-compose"
               "dotnet"
+              "history"
+              "man"
+              "systemadmin"
+              "sudo"
+              "z"
+              "fzf"
+              "copypath"
+              "web-search"
             ];
           };
+
           shellAliases = {
             ls = "eza -lh --group-directories-first --icons=auto";
             lsa = "eza --long -a";
@@ -46,6 +58,8 @@
             md = "mkdir -p";
             rd = "rmdir";
             dc = "docker-compose";
+            cg = "sudo nix-collect-garbage -d";
+            ns = "sudo nixos-rebuild switch";
             "edit-in-kitty" = "kitten edit-in-kitty";
           };
         };

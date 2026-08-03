@@ -23,14 +23,18 @@
     {
       packages.kitty-pkg = inputs.wrapper-modules.wrappers.kitty.wrap {
         inherit pkgs;
+
         font = {
-          name = "DejaVu Sans"; # "JetBrainsMono";
-          size = 13;
+          name = "Fira Code";
+          size = 11.5;
         };
 
-        themeFile = "SpaceGray_Eighties"; # "Catppuccin-Mocha";
+        themeFile = "Atom";
 
         settings = {
+          background_opacity = 90;
+          background_blur = 5;
+
           allow_remote_control = true;
           cursor_blink_interval = 0;
           cursor_beam_thickness = 1.5;
@@ -47,8 +51,6 @@
           tab_powerline_style = "round";
           tab_bar_min_tabs = 2;
 
-          url_style = "curly";
-          open_url_with = "default";
           detect_urls = true;
 
           repaint_delay = 8;
@@ -56,7 +58,7 @@
           sync_to_monitor = true;
 
           mouse_hide_wait = 5.0;
-          hide_window_decorations = true;
+          hide_window_decorations = false;
         };
       };
     };

@@ -1,9 +1,9 @@
 return {
 	{
 		"tokyonight.nvim",
-		after = function()
+		before = function()
 			require("tokyonight").setup({
-				style = "storm",
+				style = "night",
 				terminal_colors = true,
 				transparent = true,
 				cache = true,
@@ -21,8 +21,10 @@ return {
 					auto = true,
 					telescope = true,
 				},
-				vim.cmd.colorscheme("tokyonight"),
 			})
+		end,
+		after = function()
+			vim.cmd.colorscheme("tokyonight")
 		end,
 	},
 	{

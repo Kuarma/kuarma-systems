@@ -22,7 +22,7 @@ set("n", "<leader>r", function() return ":IncRename " .. vim.fn.expand("<cword>"
 --stylua: ignore end
 
 -- Undotree
-set("n", "<leader>u", "<Cmd>:UndotreeToggle<CR>", { desc = "Toggle Undotree" })
+set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Toggle Undotree" })
 
 -- Quickfix
 set("n", "<C-n>", "<cmd>cnext<cr>", { desc = "Quickfix: next" })

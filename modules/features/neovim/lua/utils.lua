@@ -14,8 +14,6 @@ function M.create_dir(dir)
 	end
 end
 
-function M.get_runtime_nix_pkgs() end
-
 function M.inside_git_repo()
 	local result = vim.system({
 		"git",

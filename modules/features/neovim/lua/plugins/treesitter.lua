@@ -3,40 +3,18 @@ return {
 		"nvim-treesitter",
 		lazy = false,
 		after = function()
-			local function treesitter_try_attach(buf, language)
-				if not vim.treesitter.language.add(language) then
-					return false
-				end
+			require("nvim-treesitter").setup({
+				install_dir = vim.fn.stdpath("data") .. "/site",
+			})
+			vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+			vim.wo.foldmethod = "expr"
+			vim.o.foldlevel = 99
 
-				vim.treesitter.start(buf, language)
-
-				vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-				vim.wo.foldmethod = "expr"
-				vim.o.foldlevel = 99
-
-				vim.b.highlight = 1
-				vim.b.did_indent = 1
-
-				return true
-			end
-
-			local installable_parsers = require("nvim-treesitter").get_available()
+			vim.b.highlight = 1
+			vim.b.did_indent = 1
 			vim.api.nvim_create_autocmd("FileType", {
-				callback = function(args)
-					local buf, filetype = args.buf, args.match
-					local language = vim.treesitter.language.get_lang(filetype)
-					if not language then
-						return
-					end
-
-					if not treesitter_try_attach(buf, language) then
-						---@cast installable_parsers string[]
-						if vim.tbl_contains(installable_parsers, language) then
-							require("nvim-treesitter").install(language):await(function()
-								treesitter_try_attach(buf, language)
-							end)
-						end
-					end
+				callback = function()
+					pcall(vim.treesitter.start)
 				end,
 			})
 		end,
@@ -44,10 +22,10 @@ return {
 	{
 		"nvim-treesitter-textobjects",
 		lazy = false,
-		before = function(plugin)
+		before = function()
 			vim.g.no_plugin_maps = true
 		end,
-		after = function(plugin)
+		after = function()
 			require("nvim-treesitter-textobjects").setup({
 				select = {
 					lookahead = true,
@@ -91,14 +69,12 @@ return {
 			vim.keymap.set({ "n", "x", "o" }, "]]", function()
 				require("nvim-treesitter-textobjects.move").goto_next_start("@class.outer", "textobjects")
 			end)
-			-- You can also pass a list to group multiple queries.
 			vim.keymap.set({ "n", "x", "o" }, "]o", function()
 				require("nvim-treesitter-textobjects.move").goto_next_start(
 					{ "@loop.inner", "@loop.outer" },
 					"textobjects"
 				)
 			end)
-			-- You can also use captures from other query groups like `locals.scm` or `folds.scm`
 			vim.keymap.set({ "n", "x", "o" }, "]s", function()
 				require("nvim-treesitter-textobjects.move").goto_next_start("@local.scope", "locals")
 			end)
@@ -140,7 +116,7 @@ return {
 	{
 		"nvim-ts-autotag",
 		lazy = false,
-		after = function(plugin)
+		after = function()
 			require("nvim-ts-autotag").setup({
 				opts = {
 					enable_close = true,

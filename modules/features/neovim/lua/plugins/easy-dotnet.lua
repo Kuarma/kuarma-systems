@@ -3,37 +3,43 @@ return {
 		"easy-dotnet.nvim",
 		after = function()
 			local dotnet = require("easy-dotnet")
+			local diagnostics = require("easy-dotnet.actions.diagnostics")
 
 			vim.api.nvim_set_hl(0, "LspCodeLens", {
 				fg = "#717171",
 				italic = true,
 			})
 
-			vim.keymap.set("n", "<leader>cl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
+			vim.keymap.set("n", "<leader>Dl", vim.lsp.codelens.run, { desc = "Run CodeLens" })
+			vim.keymap.set("n", "<leader>Dd", diagnostics.get_workspace_diagnostics, { desc = "Workspace Diagnostics" })
 
 			dotnet.setup({
 				external_terminal = nil,
+				background_scanning = true,
+				csproj_mappings = true,
+				fsproj_mappings = true,
+
 				lsp = {
-					enabled = true, -- Enable builtin roslyn lsp
-					preload_roslyn = true, -- Start loading roslyn before any buffer is opened
-					roslynator_enabled = true, -- Automatically enable roslynator analyzer
-					easy_dotnet_analyzer_enabled = true, -- Enable roslyn analyzer from easy-dotnet-server
+					enabled = true,
+					preload_roslyn = true,
+					roslynator_enabled = true,
+					easy_dotnet_analyzer_enabled = true,
 					auto_refresh_codelens = true,
 					restart_roslyn_on_branch_change = true,
-					analyzer_assemblies = {}, -- Any additional roslyn analyzers you might use like SonarAnalyzer.CSharp
-					config = {},
 					razor = {
 						enabled = true,
 						html = {
 							enabled = true,
+							request_timeout = 5000,
 						},
 					},
 				},
+
 				server = {
-					---@type nil | "Off" | "Critical" | "Error" | "Warning" | "Information" | "Verbose" | "All"
-					log_level = "Verbose",
+					log_level = "Off",
 					use_visual_studio = false,
 				},
+
 				test_runner = {
 					enable_buffer_test_execution = true,
 					viewmode = "float",
@@ -56,34 +62,42 @@ return {
 						cancel = { lhs = "<C-c>", desc = "cancel in-flight operation" },
 					},
 				},
-				background_scanning = true,
-				csproj_mappings = true,
-				fsproj_mappings = true,
+
 				new = {
 					project = {
 						prefix = "sln",
 					},
 				},
+
 				projx_lsp = {
 					enabled = true,
 				},
+
 				debugger = {
 					bin_path = vim.fn.exepath("netcoredbg"),
 					console = "integratedTerminal",
 					apply_value_converters = true,
+					auto_register_dap = true,
 					mappings = {
 						open_variable_viewer = { lhs = "T", desc = "open variable viewer" },
 					},
 				},
+
 				auto_bootstrap_namespace = {
 					type = "file_scoped",
 					enabled = true,
 					use_clipboard_json = {
-						behavior = "prompt", --'auto' | 'prompt' | 'never',
-						register = "+", -- which register to check
+						behavior = "auto",
+						register = "+",
 					},
 				},
+
+				diagnostics = {
+					default_severity = "error",
+					setqflist = true,
+				},
 			})
+
 			require("easy-dotnet.netcoredbg").register_dap_variables_viewer()
 		end,
 	},

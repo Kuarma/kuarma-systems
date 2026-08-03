@@ -23,6 +23,7 @@
     {
       packages.btop-pkg = inputs.wrapper-modules.wrappers.btop.wrap {
         inherit pkgs;
+
         themes = {
           lu-theme = ''
             theme[main_bg]="#282a36"

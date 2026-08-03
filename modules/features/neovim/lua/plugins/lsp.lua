@@ -6,19 +6,13 @@ return {
 		end,
 	},
 	{
-		"vimtex",
-		lazy = false,
-		after = function()
-			vim.g.vimtex_view_method = "zathura"
-		end,
-	},
-	{
 		"lazydev.nvim",
 		ft = "lua",
 		after = function()
 			require("lazydev").setup({
 				library = {
 					{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+					{ "nvim-dap-ui" },
 				},
 			})
 		end,
@@ -68,6 +62,7 @@ return {
 				capabilities = capabilities,
 				root_markers = { ".git" },
 			})
+
 			vim.lsp.config("lua_ls", {
 				settings = {
 					Lua = {
@@ -79,7 +74,6 @@ return {
 			})
 
 			local hostname = vim.fn.hostname()
-			local user = vim.env.USER
 
 			vim.lsp.config("nixd", {
 				cmd = { "nixd" },
@@ -93,13 +87,6 @@ return {
 						options = {
 							nixos = {
 								expr = "(builtins.getFlake (toString ./.)).nixosConfigurations."
-									.. hostname
-									.. ".options",
-							},
-							home_manager = {
-								expr = "(builtins.getFlake (toString ./.)).homeConfigurations."
-									.. user
-									.. "@"
 									.. hostname
 									.. ".options",
 							},
@@ -124,6 +111,7 @@ return {
 					},
 				},
 			})
+
 			vim.keymap.set("n", "<leader>dt", function()
 				local state = not vim.diagnostic.config().virtual_text
 				vim.diagnostic.config({ virtual_text = state })
@@ -146,6 +134,7 @@ return {
 					quiet = false,
 					lsp_format = "fallback",
 				},
+
 				formatters_by_ft = {
 					json = { "oxfmt" },
 					json5 = { "oxfmt" },
@@ -153,11 +142,8 @@ return {
 					javascript = { "oxfmt" },
 					lua = { "stylua" },
 					nix = { "nixfmt" },
-					tex = { "tex-fmt" },
-					plaintex = { "tex-fmt" },
-					bib = { "bibtex-tidy" },
-					cs = { lsp_format = "fallback" },
-					razor = { lsp_format = "fallback" },
+					cs = { lsp_format = "first" },
+					razor = { lsp_format = "first" },
 
 					["*"] = { "codespell" },
 					["_"] = { "trim_whitespace" },
@@ -167,31 +153,8 @@ return {
 					timeout_ms = 500,
 					lsp_format = "fallback",
 				},
-
-				format_after_save = {
-					lsp_format = "fallback",
-				},
 			})
 
-			local function cleanup_code()
-				vim.system({
-					"jb",
-					"cleanupcode",
-					".",
-					"--profile=Built-in: Reformat Code",
-				}, { text = true }, function(obj)
-					vim.schedule(function()
-						if obj.code == 0 then
-							vim.cmd("checktime")
-							vim.notify("Cleanup complete")
-						else
-							vim.notify(obj.stderr, vim.log.levels.ERROR)
-						end
-					end)
-				end)
-			end
-
-			vim.keymap.set("n", "<leader>cf", cleanup_code, { desc = "JetBrains CleanupCode" })
 			vim.keymap.set("n", "<leader>F", function()
 				require("conform").format({ async = true })
 			end, { desc = "Format current buffer" })

@@ -221,8 +221,8 @@ return {
 								size = 1,
 							},
 						},
-						size = 40,
-						position = "left",
+						size = 50,
+						position = "right",
 					},
 					{
 						elements = {
@@ -231,8 +231,8 @@ return {
 								size = 1,
 							},
 						},
-						size = 40,
-						position = "right",
+						size = 30,
+						position = "left",
 					},
 					{
 						elements = {

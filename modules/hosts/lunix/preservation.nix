@@ -45,6 +45,7 @@
             "/var/lib/systemd/random-seed"
             "/var/tmp"
             "/etc/NetworkManager/system-connections"
+            "~/Projects/"
             "/etc/mullvad-vpn"
             {
               directory = "/var/lib/nixos";

@@ -24,6 +24,7 @@
     {
       packages.tmux-pkg = inputs.wrapper-modules.wrappers.tmux.wrap {
         inherit pkgs;
+
         prefix = "C-Space";
         modeKeys = "vi";
         statusKeys = "vi";

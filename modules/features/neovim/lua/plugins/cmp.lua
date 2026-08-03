@@ -1,8 +1,6 @@
 return {
 	{
-		"blink.compat",
-		version = "2.*",
-		before = function() end,
+		"friendly-snippets",
 	},
 	{
 		"blink.cmp",
@@ -16,14 +14,16 @@ return {
 					preset = "default",
 					["<Tab>"] = { "select_next", "fallback" },
 					["<S-tab>"] = { "select_prev", "fallback" },
+					["<C-e>"] = { "select_and_accept", "fallback" },
 					["<C-s>"] = { "show", "show_documentation", "hide_documentation" },
-					["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
+					["<A-k>"] = { "show_signature", "hide_signature", "fallback" },
 					["<A-s>"] = {
 						function(cmp)
 							cmp.show({})
 						end,
 					},
 				},
+
 				signature = {
 					enabled = true,
 					trigger = {
@@ -36,7 +36,6 @@ return {
 						max_width = 200,
 						max_height = 30,
 						winblend = 0,
-						border = "rounded",
 						winhighlight = "Normal:BlinkCmpSignatureHelp,FloatBorder:BlinkCmpSignatureHelpBorder",
 						direction_priority = { "s" },
 						show_documentation = true,
@@ -49,32 +48,6 @@ return {
 						"lsp",
 						"snippets",
 						"path",
-						"omni",
-					},
-					providers = {
-						["omni"] = {
-							module = "blink.cmp.sources.complete_func",
-							enabled = function()
-								return vim.bo.omnifunc ~= "v:lua.vim.lsp.omnifunc"
-							end,
-							opts = {
-								complete_func = function()
-									return vim.bo.omnifunc
-								end,
-							},
-						},
-						["snippets"] = {
-							module = "blink.cmp.sources.snippets",
-							score_offset = -1,
-							opts = {
-								friendly_snippets = true,
-								search_paths = { vim.fn.stdpath("config") .. "/snippets" },
-								global_snippets = { "all" },
-								extended_filetypes = {},
-								clipboard_register = "+",
-								use_label_description = true,
-							},
-						},
 					},
 				},
 
@@ -82,7 +55,6 @@ return {
 					documentation = {
 						auto_show = true,
 						window = {
-							border = "rounded",
 							min_width = 15,
 							max_width = 200,
 							max_height = 50,
@@ -110,7 +82,6 @@ return {
 						},
 						min_width = 50,
 						max_height = 20,
-						border = "rounded",
 						winblend = 0,
 						scrollbar = false,
 						draw = {
@@ -151,7 +122,7 @@ return {
 				},
 
 				appearance = {
-					nerd_font_variant = "mono",
+					nerd_font_variant = "normal",
 				},
 
 				cmdline = {
@@ -174,7 +145,6 @@ return {
 					end,
 					frecency = {
 						enabled = true,
-						path = vim.fn.stdpath("state") .. "/blink/cmp/frecency.dat",
 					},
 					use_proximity = true,
 					sorts = {
