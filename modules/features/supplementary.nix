@@ -13,7 +13,6 @@
         gimp2
         photoqt
         mtpfs
-        calibre
         bitwarden-cli
       ];
     };

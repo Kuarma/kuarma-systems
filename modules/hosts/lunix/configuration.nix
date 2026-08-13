@@ -20,6 +20,7 @@
         self.nixosModules.limine
         self.nixosModules.pipewire
         self.nixosModules.shell
+        self.nixosModules.networking
 
         # Applications
         self.nixosModules.niri
@@ -34,21 +35,12 @@
         self.nixosModules.btop
       ];
 
-      networking = {
-        # TODO: Add networking module
-        firewall.enable = true;
-        networkmanager.enable = true;
-        hostName = "lunix";
-      };
-
       time.timeZone = "Europe/Zurich";
 
       services = {
         xserver.xkb.layout = "ch";
         upower.enable = true;
       };
-
-      console.keyMap = "sg";
 
       hardware.openrazer.enable = true;
       hardware.openrazer.users = [ cfg.username ];

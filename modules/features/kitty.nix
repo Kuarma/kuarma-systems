@@ -25,11 +25,11 @@
         inherit pkgs;
 
         font = {
-          name = "Fira Code";
+          name = "JetBrains Mono";
           size = 11.5;
         };
 
-        themeFile = "Atom";
+        # themeFile = "Atom";
 
         settings = {
           background_opacity = 90;
