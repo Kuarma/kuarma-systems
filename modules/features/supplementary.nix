@@ -14,6 +14,9 @@
         photoqt
         mtpfs
         bitwarden-cli
+
+        exif
+        exiftool
       ];
     };
 }

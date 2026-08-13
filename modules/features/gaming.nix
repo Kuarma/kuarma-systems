@@ -1,6 +1,4 @@
 {
-  self,
-  inputs,
   ...
 }:
 {
@@ -20,8 +18,6 @@
         gamescope.enable = true;
         steam = {
           enable = true;
-          package = self.packages.${pkgs.stdenv.hostPlatform.system}.steam-stable;
-          fontPackages = [ ];
           extest.enable = true;
           protontricks.enable = true;
           remotePlay.openFirewall = true;
@@ -32,6 +28,9 @@
           ];
         };
       };
+
+      hardware.openrazer.enable = true;
+      hardware.openrazer.users = [ cfg.username ];
 
       hardware = {
         xone.enable = true;
@@ -53,7 +52,7 @@
           mangohud
           er-patcher
           deadlock-mod-manager
-          self.packages.${pkgs.stdenv.hostPlatform.system}.vesktop-stable
+          vesktop
         ];
       };
 
@@ -71,21 +70,5 @@
           "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
         ];
       };
-    };
-
-  perSystem =
-    {
-      system,
-      ...
-    }:
-    let
-      stablePkgs = import inputs.nixpkgs-stable {
-        inherit system;
-        config.allowUnfree = true;
-      };
-    in
-    {
-      packages.steam-stable = stablePkgs.steam;
-      packages.vesktop-stable = stablePkgs.vesktop;
     };
 }

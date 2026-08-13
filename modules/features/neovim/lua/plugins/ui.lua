@@ -1,32 +1,32 @@
 return {
-	-- {
-	-- 	"tokyonight.nvim",
-	-- 	before = function()
-	-- 		require("tokyonight").setup({
-	-- 			style = "night",
-	-- 			terminal_colors = true,
-	-- 			transparent = true,
-	-- 			cache = true,
-	-- 			on_colors = function(colors)
-	-- 				colors.hint = colors.cyan
-	-- 				colors.error = colors.red1
-	-- 				colors.warning = colors.orange
-	-- 				colors.comment = "#eadede"
-	-- 			end,
-	-- 			on_highlights = function(hl, colors)
-	-- 				hl.Comment = { fg = colors.comment, italic = true }
-	-- 				hl.Search = { bg = colors.orange, fg = colors.bg }
-	-- 			end,
-	-- 			plugins = {
-	-- 				auto = true,
-	-- 				telescope = true,
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- 	after = function()
-	-- 		vim.cmd.colorscheme("tokyonight")
-	-- 	end,
-	-- },
+	{
+		"tokyonight.nvim",
+		before = function()
+			require("tokyonight").setup({
+				style = "night",
+				terminal_colors = true,
+				transparent = true,
+				cache = true,
+				on_colors = function(colors)
+					colors.hint = colors.cyan
+					colors.error = colors.red1
+					colors.warning = colors.orange
+					colors.comment = "#eadede"
+				end,
+				on_highlights = function(hl, colors)
+					hl.Comment = { fg = colors.comment, italic = true }
+					-- hl.Search = { bg = colors.orange, fg = colors.bg }
+				end,
+				plugins = {
+					auto = true,
+					telescope = true,
+				},
+			})
+		end,
+		after = function()
+			vim.cmd.colorscheme("tokyonight")
+		end,
+	},
 	{
 		"noice.nvim",
 		after = function()

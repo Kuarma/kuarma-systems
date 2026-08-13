@@ -58,12 +58,11 @@
 
   perSystem =
     {
-      pkgs,
       system,
       ...
     }:
     let
-      stablePkgs = import inputs.nixpkgs-stable { inherit system; };
+      pkgs = import inputs.nixpkgs-unstable { inherit system; };
     in
     {
       packages.nvim-pkg = inputs.wrapper-modules.wrappers.neovim.wrap {
@@ -84,8 +83,8 @@
             netcoredbg
           ]
           ++ [
-            stablePkgs.vscode-langservers-extracted
-            stablePkgs.codespell
+            vscode-langservers-extracted
+            codespell
           ];
 
         specs.init = {

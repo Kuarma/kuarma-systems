@@ -42,7 +42,7 @@
           KbdInteractiveAuthentication = false;
           # PermitRootLogin = "no";
           AllowUsers = [ cfg.username ];
-          MaxAuthTries = 3;
+          MaxAuthTries = 13;
           PerSourcePenalties = "crash:3600s authfail:3600s max:86400s";
         };
       };

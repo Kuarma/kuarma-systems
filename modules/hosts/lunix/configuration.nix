@@ -42,13 +42,6 @@
         upower.enable = true;
       };
 
-      hardware.openrazer.enable = true;
-      hardware.openrazer.users = [ cfg.username ];
-
-      environment.systemPackages = with pkgs; [
-        razergenie
-      ];
-
       i18n = {
         defaultLocale = "en_US.UTF-8";
 

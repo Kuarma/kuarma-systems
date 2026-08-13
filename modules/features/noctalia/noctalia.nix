@@ -5,9 +5,12 @@
 {
   perSystem =
     {
-      pkgs,
+      system,
       ...
     }:
+    let
+      pkgs = import inputs.nixpkgs-unstable { inherit system; };
+    in
     {
       packages.noctalia-pkg = inputs.wrapper-modules.wrappers.noctalia-shell.wrap {
         inherit pkgs;

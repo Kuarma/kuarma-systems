@@ -1,6 +1,4 @@
 {
-  self,
-  inputs,
   ...
 }:
 {
@@ -16,7 +14,7 @@
     {
       programs.firefox = {
         enable = true;
-        package = self.packages.${pkgs.stdenv.hostPlatform.system}.librewolf-stable;
+        package = pkgs.librewolf;
         policies = {
           ManagedBookmarks = [
             {
@@ -72,20 +70,27 @@
 
       environment.etc."firefox/policies/policies.json".target = "librewolf/policies/policies.json";
 
+      environment.etc."firejail/librewolf.local".text = ''
+        whitelist ${config.users.users.${cfg.username}.home}/.config/librewolf
+      '';
+
       preservation.preserveAt."/persistent".users.${cfg.username}.directories = [
         ".config/librewolf"
       ];
-    };
 
-  perSystem =
-    {
-      system,
-      ...
-    }:
-    let
-      stablePkgs = import inputs.nixpkgs-stable { inherit system; };
-    in
-    {
-      packages.librewolf-stable = stablePkgs.librewolf;
+      programs.firejail = {
+        enable = true;
+        wrappedBinaries = {
+          librewolf = {
+            executable = "${pkgs.librewolf}/bin/librewolf";
+            profile = "${pkgs.firejail}/etc/firejail/librewolf.profile";
+            extraArgs = [
+              "--ignore=private-dev"
+              "--env=GTK_THEME=Adwaita:dark"
+              "--dbus-user.talk=org.freedesktop.Notifications"
+            ];
+          };
+        };
+      };
     };
 }

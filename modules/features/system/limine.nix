@@ -10,7 +10,10 @@
       boot = {
         plymouth.enable = true;
         loader = {
-          limine.enable = true;
+          limine = {
+            enable = true;
+            secureBoot.enable = false;
+          };
           efi.canTouchEfiVariables = true;
         };
       };

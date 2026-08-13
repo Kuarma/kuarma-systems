@@ -29,8 +29,6 @@
           size = 11.5;
         };
 
-        # themeFile = "Atom";
-
         settings = {
           background_opacity = 90;
           background_blur = 5;
