@@ -47,11 +47,14 @@
         ];
 
         sessionVariables = {
-          # DOTNET_ROOT / DOTNET_ROOT_X64 intentionally left unset: `dotnet --info`
-          # showed the NixOS wrapper already points these at the correct
-          # dotnet-wrapped-combined path, and overriding them here caused
-          # restores against a mismatched DOTNET_HOST_PATH. Only reintroduce
-          # these if a specific SDK resolution problem requires it.
+          # DOTNET_ROOT / DOTNET_ROOT_X64 are required for native apphost
+          # executables (e.g. global tools like `dotnet-easydotnet`, invoked
+          # directly rather than via the `dotnet` muxer) to locate the
+          # runtime: apphosts check the app directory, then these env vars,
+          # then a hardcoded /usr/share/dotnet that doesn't exist on NixOS.
+          # Without them set, such tools fail with ".NET location: Not found".
+          DOTNET_ROOT = "${dotnet}/share/dotnet";
+          DOTNET_ROOT_X64 = "${dotnet}/share/dotnet";
           DOTNET_MULTILEVEL_LOOKUP = "0";
           DOTNET_CLI_TELEMETRY_OPTOUT = "1";
           DOTNET_NOLOGO = "1";
