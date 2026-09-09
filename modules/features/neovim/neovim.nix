@@ -47,8 +47,11 @@
         ];
 
         sessionVariables = {
-          DOTNET_ROOT = "${dotnet}/share/dotnet";
-          DOTNET_ROOT_X64 = "${dotnet}/share/dotnet";
+          # DOTNET_ROOT / DOTNET_ROOT_X64 intentionally left unset: `dotnet --info`
+          # showed the NixOS wrapper already points these at the correct
+          # dotnet-wrapped-combined path, and overriding them here caused
+          # restores against a mismatched DOTNET_HOST_PATH. Only reintroduce
+          # these if a specific SDK resolution problem requires it.
           DOTNET_MULTILEVEL_LOOKUP = "0";
           DOTNET_CLI_TELEMETRY_OPTOUT = "1";
           DOTNET_NOLOGO = "1";

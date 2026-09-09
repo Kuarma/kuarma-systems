@@ -5,8 +5,12 @@
 {
   flake.nixosModules.cernPreservationConfig =
     {
+      config,
       ...
     }:
+    let
+      cfg = config.userInfo;
+    in
     {
       imports = [
         inputs.preservation.nixosModules.default
@@ -46,7 +50,27 @@
             "/var/lib/nixos"
             "/var/log"
             "/etc/NetworkManager/system-connections"
+            "/var/lib/docker"
+            "/var/lib/containerd"
           ];
+
+          users = {
+            ${cfg.username} = {
+              directories = [
+                "Projects"
+                ".dotnet"
+                ".nuget"
+                ".local/share/NuGet"
+                ".local/share/direnv"
+                ".local/state/nix"
+                ".local/state/wireplumber"
+                ".local/share/keyrings"
+              ];
+              files = [
+                ".zsh_history"
+              ];
+            };
+          };
         };
       };
     };
